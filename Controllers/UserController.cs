@@ -19,8 +19,31 @@ public class UserController : Controller
         public ActionResult Details(int id)
         {
             // Implement the details method here
-            return View(userlist.Find(user => user.Id == id));
+           var user = userlist.Find(user => user.Id == id);
+           if(user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
         }
+
+            // GET: User/Search
+    public ActionResult Search(string query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            // If no query is provided, return the full list
+            return View("Index", userlist);
+        }
+
+        // Filter the user list based on the query (case-insensitive)
+        var results = userlist.Where(user =>
+            user.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+            user.Email.Contains(query, StringComparison.OrdinalIgnoreCase)).ToList();
+
+        return View("Index", results); // Reuse the Index view to display the results
+    }
+
 
         // GET: User/Create
         public ActionResult Create()

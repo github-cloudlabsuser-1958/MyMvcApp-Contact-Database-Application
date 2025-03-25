@@ -5,7 +5,13 @@
 }
 
 <h2>Index</h2>
-
+@using (Html.BeginForm("Search", "User", FormMethod.Get))
+{
+    <div class="form-group">
+        <input type="text" name="query" class="form-control" placeholder="Search users..." />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+}
 <p>
     @Html.ActionLink("Create New", "Create", "User")
 </p>
